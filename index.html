@@ -1,0 +1,323 @@
+<html>
+<head>
+    <title>AWS Meet the Expert Campaign 참여 설문</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: rgb(255, 254, 254);
+        }
+
+        input[type="text"],
+        select.form-control {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #000000;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            border-radius: 0;
+        }
+        input[type="text"]:focus,
+        select.form-control:focus {
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+        fieldset { 
+            margin: 20px;
+           }
+        .col-1, .col-2 {
+            padding-bottom: 10px;
+        }
+        .appended {
+            padding: 20px;
+            display: none;
+        }
+    </style>
+    <script>
+
+
+        function cloudYesClick() {
+           $('#cloud-appended1').show();
+           $('#cloud-appended2').show();
+        }
+        function cloudNoClick() {
+            $('#cloud-appended1').hide();
+            $('#cloud-appended2').hide();
+         }
+
+
+        function wafYesClick() {
+            $('#waf-appended').show();
+        }
+        function wafNoClick() {
+            $('#waf-appended').hide();
+        }
+
+        function metSaYes() {
+            $('#sa-appended').hide();
+
+        }
+        function metSaNo() {
+            $('#sa-appended').show();
+
+        }
+
+        function checkedTopics() {
+
+            var items=document.getElementsByName('additional-topic');
+            var selectedItems=[];
+            for(var i=0; i<items.length; i++){
+                if(items[i].type=='checkbox' && items[i].checked==true)
+                    selectedItems.push(items[i].value);
+            }
+            return selectedItems;
+			
+        }
+        function consoleLog() {
+            var company = $('#company').val();
+            var job = $('#job').val();
+            var name = $('#name').val();
+            var phone = $('#phone').val();
+            var email = $('#email').val();
+            var timeslot = $('input[name="timeslotRadioOptions"]:checked').val();
+            var onoff = $('input[name="onoffRadioOptions"]:checked').val();
+
+            const body = {
+                "company": company, 
+                "job": job,
+                "name": name,
+                "phone": phone,
+                "timeslot": timeslot,
+                "onoff": onoff,
+                "email": email,
+            };
+            console.log(body); 
+        }
+        $(document).ready(function () {
+            
+            $('#submitForm').submit(function (e) {
+                e.preventDefault();
+
+                // ----- Start -----
+                // 아래 양식에서 요부분만 채워주시면 됩니다. :)
+                var company = $('#company').val();
+                var job = $('#job').val();
+                var name = $('#name').val();
+                var phone = $('#phone').val();
+                var timeslot = $('input[name="timeslotRadioOptions"]:checked').val();
+                var onoff = $('input[name="onoffRadioOptions"]:checked').val();
+                var email = $('#email').val();
+
+                const body = {
+                    "company": company, 
+                    "job": job,
+                    "name": name,
+                    "phone": phone,
+                    "timeslot": timeslot,
+                    "onoff": onoff,
+                    "email": email,
+                };
+                console.log(body);
+                // 여기까지 채워서 공유해주시면 Lambda 함수는 Body 포맷에 맞게 제가 작업하겠습니다.
+                // ----- End -----
+                
+                const endpoint = "https://na1r61r0li.execute-api.us-west-2.amazonaws.com/prod/survay2";
+                $.post(endpoint, JSON.stringify(body)).done(function (response) {
+     //               alert("제출이 완료되었습니다. 감사합니다.");
+                    //window.location.href = "./survey-end.html";
+                }).fail(function(xhr, status, error) {
+  //                  alert("제출에 실패하였습니다. 담당 관리자에 연락 부탁드립니다.");
+                });
+                window.location.href = "./survey-end.html";
+            });
+
+            // 개인정보 수집 문항 활성화 시 필요한 함수입니다.
+            $('#check').change(function() {
+                if ($('#check').is(':checked')) {
+                    $('#submitBtn').attr('disabled', false);
+                } else {
+                    $('#submitBtn').attr('disabled', true);
+                }
+            })
+
+        });
+    </script>
+</head>
+
+<body>
+    <!-- As a heading -->
+    <form id="submitForm" enctype="application/json">
+        <div class="container">
+            <nav class="navbar navbar-light bg-light">
+                <span class="navbar-brand mb-0 h1" style="font-size: 24px; padding: 5px;">AWS Meet the Expert Campaign 참여 설문</span>
+            </nav>
+            <p><span style="font-size: 18px;">
+           9/7(화), 9/8(수) 화상회의로 진행되는 aws 비대면 컨설팅 미팅을 위한 설문입니다.
+<br>
+                </span></p>
+                <hr class="my-4" style="border-top: 1px solid #ccc">
+                <div class="card text-dark bg-light mb-3">
+                    <div class="card-header">기본 정보</div>
+                    <div class="card-body">
+                        <h5 class="card-title">성함</h5>
+                        <input type="text" name="name" class="form-control" id="name" value="" placeholder="홍길동" required>
+                    </div>
+                </div>
+
+                <div class="card text-dark bg-light mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">회사</h5>
+                        <input type="text" name="company" class="form-control" id="company" value="" placeholder="AWS" required>
+                    </div>
+                </div>
+
+                <div class="card text-dark bg-light mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">직책</h5>
+                        <input type="text" name="job" class="form-control" id="job" value="" placeholder="사원" required>
+                    </div>
+                </div>
+                <div class="card text-dark bg-light mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">휴대폰 번호</h5>
+                        <input type="text" name="phone" class="form-control" id="phone" value="" placeholder="010-XXXX-XXXX" required>
+                    </div>
+                </div>
+                <div class="card text-dark bg-light mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">이메일</h5>
+                    <input type="text" name="email" class="form-control" id="email" value="" placeholder="hong@test.com">
+                </div>
+            </div>
+
+                <hr class="my-4" style="border-top: 1px solid #ccc">
+                <div class="card text-dark bg-light mb-3">
+                    <div class="card-body" id="waf">
+                        <h5 class="card-title">어느 요일을 선호하시나요?</h5>
+                        <div class="row" style="text-align: center;" >
+                            <div class="col-1"><label class="form-check-label" for="dayslot1"> 9/14 화</label></div>
+                            <div class="col-1"><label class="form-check-label" for="dayslot2"> 9/16 목</label></div>
+                            <div class="col-1"><label class="form-check-label" for="dayslot3"> 10/5 화</label></div>
+                            <div class="col-1"><label class="form-check-label" for="dayslot4"> 10/7 목</label></div>
+                        </div>
+                        <div class="row" style="text-align: center;">
+                            <div class="col-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="onoffRadioOptions" id="dayslot1" value="0914" required>
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="onoffRadioOptions" id="dayslot2" value="0916" required>
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="onoffRadioOptions" id="dayslot3" value="1005" required>
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="onoffRadioOptions" id="dayslot4" value="1007" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- CSAT UI BEGIN -->
+                <!-- 라디오 버튼의 name 을 수정해서 매핑하시면 쉽습니다. -->
+                <div class="card text-dark bg-light mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">어느 시간을 선호하시나요?</h5>
+                        <div class="row" style="text-align: center;">
+                            <div class="col-1"><label class="form-check-label" for="timeslot1">9:30-10:30</label></div>
+                            <div class="col-1"><label class="form-check-label" for="timeslot2">11:00-12:00</label></div>
+                            <div class="col-1"><label class="form-check-label" for="timeslot3">13:30-14:30</label></div>
+                            <div class="col-1"><label class="form-check-label" for="timeslot4">15:00-16:00</label></div>
+                            <div class="col-1"><label class="form-check-label" for="timeslot5">16:30-17:30</label></div>
+                        </div>
+                        <div class="row" style="text-align: center;">
+                            <div class="col-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="timeslotRadioOptions" id="timeslot1" value="0930">
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="timeslotRadioOptions" id="timeslot2" value="1100">
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="timeslotRadioOptions" id="timeslot3" value="1330">
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="timeslotRadioOptions" id="timeslot4" value="1500">
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="timeslotRadioOptions" id="timeslot5" value="1630">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      
+        <div class="container">
+            <!-- 개인정보 수집문항 UI BEGIN -->
+            <hr class="my-4" style="border-top: 1px solid #ccc">
+
+            <p><span style="font-size: 18px; font-weight: bold;">개인정보 수집 및 활용에 관한 동의</span></p>
+            <p><span style="font-size: 14px;">아마존웹서비시즈코리아(“회사”)는 아래 내용에 따라 귀하의 정보를 수집 및 활용합니다. 다음의 내용을 숙지하시고 동의하시는 경우 체크 박스에 표시해주세요. </span></p>
+    
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">수집 및 이용 목적</th>
+                        <td>설문 참여에 대한 보상 전달</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">수집하려는 개인 정보 항목</th>
+                        <td>이름, 회사, 직책, 이메일주소</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">개인 정보 보유 및 이용기간</th>
+                        <td>이용 목적 달성 시 즉시 폐기</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p><span style="font-size: 14px;">귀하는 이러한 개인 정보 수집 및 활용에 동의하지 않을 권리가 있으며, 동의하지 않으시는 경우, 설문 참여에 대한 보상을 전달받을 수 없습니다.</span></p>
+
+            <div class="form-check" style="padding-bottom: 10px;">
+                <input type="checkbox" class="form-check-input" id="check">
+                <label class="form-check-label">(필수) 본인은 위 사항을 숙지하였으며, 위의 개인 정보 수집 및 이용에 동의합니다.</label>
+            </div>              
+            <!-- 개인정보 수집문항 UI END -->
+
+            <div class="row align-items-start">
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary" id="submitBtn" disabled>응답 제출</button>
+                    <!-- <button type="submit" class="btn btn-primary" id="consoleBtn" onclick="consoleLog();">콘솔 출력</button> -->
+
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

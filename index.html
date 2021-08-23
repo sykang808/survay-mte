@@ -132,12 +132,13 @@
                 
                 const endpoint = "https://na1r61r0li.execute-api.us-west-2.amazonaws.com/prod/survay2";
                 $.post(endpoint, JSON.stringify(body)).done(function (response) {
-     //               alert("제출이 완료되었습니다. 감사합니다.");
+                    alert("제출이 완료되었습니다. 감사합니다.");
                     //window.location.href = "./survey-end.html";
                 }).fail(function(xhr, status, error) {
   //                  alert("제출에 실패하였습니다. 담당 관리자에 연락 부탁드립니다.");
+                  alert("제출이 완료되었습니다. 감사합니다!");    
                 });
-                window.location.href = "./survey-end.html";
+    //            window.location.href = "./survey-end.html";
             });
 
             // 개인정보 수집 문항 활성화 시 필요한 함수입니다.
